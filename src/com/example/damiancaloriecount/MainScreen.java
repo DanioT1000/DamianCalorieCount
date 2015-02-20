@@ -35,7 +35,8 @@ public class MainScreen extends Activity implements OnClickListener {
         bAddToDiary = (Button)findViewById(R.id.bAddToDiary);
         bShowTodaysProducts = (Button)findViewById(R.id.bShowTodaysProducts);
         
-        
+        bAddToDiary.setOnClickListener(this);
+        bShowTodaysProducts.setOnClickListener(this);
     }
 
 	@Override
@@ -47,6 +48,12 @@ public class MainScreen extends Activity implements OnClickListener {
 				startActivity(i);
 				break;	
 			case R.id.bShowTodaysProducts:
+				/* TEST
+				CRUDdb entry = new CRUDdb(MainScreen.this);
+				entry.open();
+				entry.createEntry("dupa", (float)150, (float)15, (float)51, (float)500);
+				entry.close();
+				*/
 				break;
 		}
 	}
