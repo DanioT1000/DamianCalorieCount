@@ -48,12 +48,16 @@ public class MainScreen extends Activity implements OnClickListener {
 				startActivity(i);
 				break;	
 			case R.id.bShowTodaysProducts:
-				/* TEST
+				
 				CRUDdb entry = new CRUDdb(MainScreen.this);
 				entry.open();
-				entry.createEntry("dupa", (float)150, (float)15, (float)51, (float)500);
-				entry.close();
+				/*
+				entry.createEntry("ziemniak", (float)1, (float)2, (float)3, (float)4);
+				entry.createEntry("majonez", (float)1, (float)2, (float)3, (float)4);
+				entry.createEntry("chleb", (float)1, (float)2, (float)3, (float)4);
 				*/
+				entry.close();
+			
 				break;
 		}
 	}
