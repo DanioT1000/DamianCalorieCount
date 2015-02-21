@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="100"
+        android:orientation="horizontal"
+        >
+    
+    <AutoCompleteTextView
+        android:id="@+id/autoCompleteTextView"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:ems="10"
+        android:text=""
+        android:hint="Type a name of product"
+        android:layout_weight="20" >
+        <requestFocus />
+    </AutoCompleteTextView>
+
+    <Button
+        android:id="@+id/bSearch"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Search"
+        android:textSize="10dp"
+        android:layout_weight="80" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Search Results"
+        android:textAppearance="?android:attr/textAppearanceSmall" 
+        android:layout_marginTop="10dp"/>
+
+       <ScrollView
+           android:id="@+id/scrollView"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content" 
+           android:layout_marginTop="10dp">
+
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:orientation="vertical" >
+               
+		 <ListView
+		     android:id="@+id/listView"
+		     android:layout_width="fill_parent"
+		     android:layout_height="424dp"
+		     android:drawSelectorOnTop="false" />
+		 
+           </LinearLayout>
+       </ScrollView>
+    
+</LinearLayout>
