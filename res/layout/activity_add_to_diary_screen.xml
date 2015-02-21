@@ -9,7 +9,7 @@
         android:layout_height="wrap_content" >
 
          <Button
-             android:id="@+id/button1"
+             android:id="@+id/bAddToDiary"
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
              android:layout_alignParentRight="true"
@@ -20,7 +20,7 @@
              android:textSize="5dp" />
 
          <TextView
-             android:id="@+id/textView1"
+             android:id="@+id/tvProductName"
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
              android:layout_alignParentLeft="true"
@@ -37,7 +37,7 @@
         android:layout_marginTop="30dp">
 
         <EditText
-            android:id="@+id/editText1"
+            android:id="@+id/etGrams"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
@@ -48,7 +48,7 @@
             android:gravity="center" />
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/bPlus"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_alignParentRight="true"
@@ -57,7 +57,7 @@
             android:text="+" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/bMinus"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_alignParentLeft="true"
@@ -84,7 +84,7 @@
             android:gravity="center"  />
        
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/tvCarbs"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="300"
@@ -112,7 +112,7 @@
             android:gravity="center"  />
        
         <TextView
-            android:id="@+id/textView6"
+            android:id="@+id/tvProtein"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="300"
@@ -140,7 +140,7 @@
             android:gravity="center"  />
        
         <TextView
-            android:id="@+id/textView8"
+            android:id="@+id/tvFat"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="300"
@@ -168,7 +168,7 @@
             android:gravity="center"  />
        
         <TextView
-            android:id="@+id/textView10"
+            android:id="@+id/tvKcal"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="300"
@@ -188,7 +188,7 @@
         android:layout_marginTop="30dp" />
 
     <TextView
-        android:id="@+id/textView12"
+        android:id="@+id/tvKcalLeft"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="420 kcal"
