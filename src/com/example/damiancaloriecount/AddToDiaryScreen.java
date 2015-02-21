@@ -24,10 +24,10 @@ public class AddToDiaryScreen extends Activity implements OnClickListener{
 	CRUDdb database;
 	ArrayList arrayList;
 	String s_carbsProduct, s_proteinProduct, s_fatProduct, s_kcalProduct;
-	Float f_carbsProduct, f_proteinProduct, f_fatProduct, f_kcalProduct;
-	Float carbs,protein,fat,kcal;
-	Float carbsLeft, proteinLeft, fatLeft;
-	Integer multipler = 1;   //100/100
+	float f_carbsProduct, f_proteinProduct, f_fatProduct, f_kcalProduct;
+	float carbs,protein,fat,kcal;
+	float carbsLeft, proteinLeft, fatLeft;
+	int grams = 100;   
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
@@ -70,14 +70,16 @@ public class AddToDiaryScreen extends Activity implements OnClickListener{
 		s_fatProduct = arrayList.get(3).toString();
 		f_fatProduct = Float.valueOf(s_fatProduct);
 		
+		s_kcalProduct = arrayList.get(4).toString();
+		f_kcalProduct = Float.valueOf(s_kcalProduct);
+		
+		
+		updatTextViews(f_carbsProduct,f_proteinProduct,f_fatProduct,f_kcalProduct,160,170,180,190);
 	
-		/*
-		tv.setText(p_name + " carbs: " + s_carbs);
-		*/
+		//*OnClickListener
 		bAddToDiary.setOnClickListener(this);
 		bPlus.setOnClickListener(this);
-		bMinus.setOnClickListener(this);
-		
+		bMinus.setOnClickListener(this);	
 		etGrams.addTextChangedListener(new TextWatcher() {
 			
 			@Override
@@ -97,41 +99,77 @@ public class AddToDiaryScreen extends Activity implements OnClickListener{
 			public void afterTextChanged(Editable s) {
 				// TODO Auto-generated method stub
 				Toast.makeText(getApplicationContext(), s, 0).show();
+				
+				String s_value = String.valueOf(s);				
+				int i_value = Integer.valueOf(s_value);
+				carbs = ((float)i_value/100)*f_carbsProduct;
+				protein = ((float)i_value/100)*f_proteinProduct;
+				fat = ((float)i_value/100)*f_fatProduct;
+				kcal = (4*carbs) + (4* protein) + (9* fat);
+				updatTextViews(carbs, protein, fat, kcal, 0,0,0,0);
+				
+				
 			}
 		});
+		//****end OnClickListener
 	}
 	
-	  @Override
-	    public void onResume() {
-	        super.onResume();
-	        database.open();
-	    }
+  @Override
+    public void onResume() {
+        super.onResume();
+        database.open();
+    }
 
-	    @Override
-	    public void onPause() {
-	        super.onPause();
-	        database.close();
-	    }
+    @Override
+    public void onPause() {
+        super.onPause();
+        database.close();
+    }
+	    
+    public void updatTextViews(float carbs, float protein, float fat, float kcal, float carbsleft, float proteinleft, float fatleft, float kcalleft){
+    	tvCarbs.setText(String.valueOf(carbs));
+    	tvProtein.setText(String.valueOf(protein));
+    	tvFat.setText(String.valueOf(fat));
+    	tvKcal.setText(String.valueOf(kcal));
+    	
+    	tvCarbsLeft.setText(String.valueOf(carbsleft));
+    	tvProteinLeft.setText(String.valueOf(proteinleft));
+    	tvFatLeft.setText(String.valueOf(fatleft));
+    	tvKcalLeft.setText(String.valueOf(kcalleft));
+    }
+	    
 
-		@Override
-		public void onClick(View v) {
-			// TODO Auto-generated method stub
-			switch(v.getId()){
-			case R.id.bAddToDiary:
-				
-				break;
-			case R.id.bPlus:  
-				String s_value = etGrams.getText().toString(); //check !null
-				Integer i_value = Integer.valueOf(s_value)+1;
-				etGrams.setText(String.valueOf(i_value));
-				break;
-			case R.id.bMinus:
-				String s_value2 = etGrams.getText().toString(); //check !null
-				Integer i_value2 = Integer.valueOf(s_value2)-1;
-				etGrams.setText(String.valueOf(i_value2));
-				
-				break;
-			}
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		switch(v.getId()){
+		case R.id.bAddToDiary:
+			
+			break;
+		case R.id.bPlus:  
+			String s_value = etGrams.getText().toString(); //check !null
+			int i_value = Integer.valueOf(s_value);
+			int incValue = i_value+1;
+			etGrams.setText(String.valueOf(incValue));
+			carbs = ((float)incValue/100)*f_carbsProduct;
+			protein = ((float)incValue/100)*f_proteinProduct;
+			fat = ((float)incValue/100)*f_fatProduct;
+			kcal = (4*carbs) + (4* protein) + (9* fat);
+			updatTextViews(carbs, protein, fat, kcal, 0,0,0,0);
+			break;
+		case R.id.bMinus:
+			String s_value2 = etGrams.getText().toString(); //check !null
+			int i_value2 = Integer.valueOf(s_value2);
+			int decValue2 = i_value2-1;
+			etGrams.setText(String.valueOf(decValue2));
+			carbs = ((float)decValue2/100)*f_carbsProduct;
+			protein = ((float)decValue2/100)*f_proteinProduct;
+			fat = ((float)decValue2/100)*f_fatProduct;
+			kcal = (4*carbs) + (4* protein) + (9* fat);
+			updatTextViews(carbs, protein, fat, kcal, 0,0,0,0);
+			
+			break;
 		}
+	}
 
 }
