@@ -1,6 +1,10 @@
 package com.example.damiancaloriecount;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -28,6 +32,7 @@ public class AddToDiaryScreen extends Activity implements OnClickListener{
 	float carbs,protein,fat,kcal;
 	float carbsLeft, proteinLeft, fatLeft;
 	int grams = 100;   
+	String p_name;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
@@ -54,7 +59,7 @@ public class AddToDiaryScreen extends Activity implements OnClickListener{
 		
 		//get info from intent
 		Intent i = getIntent();
-		String p_name = i.getExtras().getString("p_name");
+		p_name = i.getExtras().getString("p_name");
 		
 		//read from database
 		database = new CRUDdb(this);
@@ -144,7 +149,11 @@ public class AddToDiaryScreen extends Activity implements OnClickListener{
 		// TODO Auto-generated method stub
 		switch(v.getId()){
 		case R.id.bAddToDiary:
-			
+			Calendar c = Calendar.getInstance();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd ");
+			String strDate = sdf.format(c.getTime());			
+			Toast.makeText(getApplicationContext(),"date:" + strDate+ " p_name: "+ p_name +" carbs: " + carbs + " protein: " + protein + " fat: "+ fat + " kcal:" +kcal, 0).show();
+			database.addToDiary(p_name, carbs, protein, fat, kcal);
 			break;
 		case R.id.bPlus:  
 			String s_value = etGrams.getText().toString(); //check !null
