@@ -65,7 +65,7 @@ public class MainScreen extends Activity implements OnClickListener {
           protein = database.getTodaysProtein();
           fat = database.getTodaysFat();
           
-          tvTotalCalories.setText(String.valueOf((4*carbs) + (4*protein) + (4 *fat)));
+          tvTotalCalories.setText(String.valueOf((4*carbs) + (4*protein) + (9 *fat)));
           
           carbsLeft = 404 - carbs;
           proteinLeft = 173 - protein;
