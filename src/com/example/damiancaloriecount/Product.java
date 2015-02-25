@@ -3,6 +3,7 @@ package com.example.damiancaloriecount;
 public class Product {
 	
 	//private variables
+	int id;
 	String name;
 	float carbs;
 	float protein;
@@ -13,7 +14,7 @@ public class Product {
 		
 	}
 	
-	public Product(String name, float carbs, float protein, float fat, float kcal){
+	public Product(int id, String name, float carbs, float protein, float fat, float kcal){
 		this.name = name;
 		this.carbs = carbs;
 		this.protein = protein;
@@ -21,6 +22,10 @@ public class Product {
 		this.kcal = kcal;
 	}
 	//set
+	public void setId(int id){
+		this.id = id;
+	}
+	
 	public void setName(String name){
 		this.name = name;
 	}
@@ -41,6 +46,10 @@ public class Product {
 		this.kcal = kcal;
 	}
 	//get
+	public int getId(){
+		return this.id;
+	}
+	
 	public String getName(){
 		return this.name;
 	}
