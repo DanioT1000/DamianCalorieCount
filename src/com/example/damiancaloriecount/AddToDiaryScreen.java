@@ -66,6 +66,8 @@ public class AddToDiaryScreen extends Activity implements OnClickListener{
 		database.open();
 		arrayList = database.getDataAboutProduct(p_name); //0-Name 1-Carbs 2-Protein 3-Fat 4-Kcal
 		
+		tvProductName.setText(arrayList.get(0).toString());
+		
 		s_carbsProduct = arrayList.get(1).toString();
 		f_carbsProduct = Float.valueOf(s_carbsProduct);
 		
@@ -77,6 +79,13 @@ public class AddToDiaryScreen extends Activity implements OnClickListener{
 		
 		s_kcalProduct = arrayList.get(4).toString();
 		f_kcalProduct = Float.valueOf(s_kcalProduct);
+		
+		carbs=f_carbsProduct;
+		protein= f_proteinProduct;
+		fat = f_fatProduct;
+		kcal = f_carbsProduct;
+		
+		
 		
 		
 		updatTextViews(f_carbsProduct,f_proteinProduct,f_fatProduct,f_kcalProduct,160,170,180,190);
@@ -103,16 +112,21 @@ public class AddToDiaryScreen extends Activity implements OnClickListener{
 			@Override
 			public void afterTextChanged(Editable s) {
 				// TODO Auto-generated method stub
-				Toast.makeText(getApplicationContext(), s, 0).show();
-				
-				String s_value = String.valueOf(s);				
-				int i_value = Integer.valueOf(s_value);
-				carbs = ((float)i_value/100)*f_carbsProduct;
-				protein = ((float)i_value/100)*f_proteinProduct;
-				fat = ((float)i_value/100)*f_fatProduct;
-				kcal = (4*carbs) + (4* protein) + (9* fat);
+				if(!s.toString().equals("")){
+					//Toast.makeText(getApplicationContext(), s, 0).show();
+					//String s_value = String.valueOf(s);					
+					int i_value = Integer.valueOf(s.toString());
+					carbs = ((float)i_value/100)*f_carbsProduct;
+					protein = ((float)i_value/100)*f_proteinProduct;
+					fat = ((float)i_value/100)*f_fatProduct;
+					kcal = (4*carbs) + (4* protein) + (9* fat);				
+				} else{
+					carbs = 0;
+					protein = 0;
+					fat = 0;
+					kcal = 0;
+				}
 				updatTextViews(carbs, protein, fat, kcal, 0,0,0,0);
-				
 				
 			}
 		});
@@ -149,32 +163,43 @@ public class AddToDiaryScreen extends Activity implements OnClickListener{
 		// TODO Auto-generated method stub
 		switch(v.getId()){
 		case R.id.bAddToDiary:
-			Calendar c = Calendar.getInstance();
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd ");
-			String strDate = sdf.format(c.getTime());			
-			Toast.makeText(getApplicationContext(),"date:" + strDate+ " p_name: "+ p_name +" carbs: " + carbs + " protein: " + protein + " fat: "+ fat + " kcal:" +kcal, 0).show();
 			database.addToDiary(p_name, carbs, protein, fat, kcal);
+			Toast.makeText(getApplicationContext(), "Added To database", 0).show();
+			Intent i = new Intent(this, MainScreen.class);
+			startActivity(i);
 			break;
 		case R.id.bPlus:  
 			String s_value = etGrams.getText().toString(); //check !null
-			int i_value = Integer.valueOf(s_value);
-			int incValue = i_value+1;
-			etGrams.setText(String.valueOf(incValue));
-			carbs = ((float)incValue/100)*f_carbsProduct;
-			protein = ((float)incValue/100)*f_proteinProduct;
-			fat = ((float)incValue/100)*f_fatProduct;
-			kcal = (4*carbs) + (4* protein) + (9* fat);
+			if(!s_value.equals("")){
+				int i_value = Integer.valueOf(s_value);
+				int incValue = i_value+1;
+				etGrams.setText(String.valueOf(incValue));
+				carbs = ((float)incValue/100)*f_carbsProduct;
+				protein = ((float)incValue/100)*f_proteinProduct;
+				fat = ((float)incValue/100)*f_fatProduct;
+				kcal = (4*carbs) + (4* protein) + (9* fat);
+			}
 			updatTextViews(carbs, protein, fat, kcal, 0,0,0,0);
 			break;
 		case R.id.bMinus:
 			String s_value2 = etGrams.getText().toString(); //check !null
-			int i_value2 = Integer.valueOf(s_value2);
-			int decValue2 = i_value2-1;
-			etGrams.setText(String.valueOf(decValue2));
-			carbs = ((float)decValue2/100)*f_carbsProduct;
-			protein = ((float)decValue2/100)*f_proteinProduct;
-			fat = ((float)decValue2/100)*f_fatProduct;
-			kcal = (4*carbs) + (4* protein) + (9* fat);
+			if(!s_value2.equals("")){
+				int i_value2 = Integer.valueOf(s_value2);
+				int decValue2 = i_value2-1;
+				if(decValue2 >0){
+					etGrams.setText(String.valueOf(decValue2));
+					carbs = ((float)decValue2/100)*f_carbsProduct;
+					protein = ((float)decValue2/100)*f_proteinProduct;
+					fat = ((float)decValue2/100)*f_fatProduct;
+					kcal = (4*carbs) + (4* protein) + (9* fat);
+				} else {
+					etGrams.setText("0");
+					carbs = 0;
+					protein = 0;
+					fat = 0;
+					kcal = 0;
+				}
+			}
 			updatTextViews(carbs, protein, fat, kcal, 0,0,0,0);
 			
 			break;
