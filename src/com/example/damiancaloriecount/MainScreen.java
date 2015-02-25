@@ -1,5 +1,8 @@
 package com.example.damiancaloriecount;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,6 +24,11 @@ public class MainScreen extends Activity implements OnClickListener {
 	Button bAddToDiary;
 	Button bShowTodaysProducts;
 	Button bAddProductToDatabase;
+	CRUDdb database;
+	float carbs, protein, fat;
+	float carbsLeft, proteinLeft, fatLeft;
+	Calendar c = Calendar.getInstance();
+    SimpleDateFormat sdf = new SimpleDateFormat("EEEE yyyy-MM-dd");
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +50,38 @@ public class MainScreen extends Activity implements OnClickListener {
         bAddToDiary.setOnClickListener(this);
         bShowTodaysProducts.setOnClickListener(this);
         bAddProductToDatabase.setOnClickListener(this);
+        //open database
+        database = new CRUDdb(this);
+        database.open();
+        //updateTV
+        updateTv();
+       
+        
     }
+    
+    public void updateTv(){
+    	 //get info from database
+    	  carbs = database.getTodaysCarbs();
+          protein = database.getTodaysProtein();
+          fat = database.getTodaysFat();
+          
+          tvTotalCalories.setText(String.valueOf((4*carbs) + (4*protein) + (4 *fat)));
+          
+          carbsLeft = 404 - carbs;
+          proteinLeft = 173 - protein;
+          fatLeft = 80 - fat;        
+          
+          tvCaloriesLeft.setText(String.valueOf((4*carbsLeft) + (4*proteinLeft) + (9 *fatLeft)));
+          
+          tvCarbsLeft.setText(String.valueOf(carbsLeft));
+          tvProteinLeft.setText(String.valueOf(proteinLeft));
+          tvFatLeft.setText(String.valueOf(fatLeft));
+          
+          //update date        
+          String strDate = sdf.format(c.getTime());
+          tvDate.setText(strDate);
+    }
+    
 
 	@Override
 	public void onClick(View v) {
@@ -55,17 +94,6 @@ public class MainScreen extends Activity implements OnClickListener {
 			case R.id.bShowTodaysProducts:
 				Intent i2 = new Intent("com.example.damiancaloriecount.LISTTODAYSPRODUCTSCREEN");
 				startActivity(i2);
-				
-				/*
-				CRUDdb entry = new CRUDdb(MainScreen.this);
-				entry.open();
-				
-				entry.createEntry("ziemniak", (float)1, (float)2, (float)3, (float)4);
-				entry.createEntry("majonez", (float)1, (float)2, (float)3, (float)4);
-				entry.createEntry("chleb", (float)1, (float)2, (float)3, (float)4);
-				
-				entry.close();
-				*/
 				break;
 			case R.id.bAddProductToDatabase:
 				Intent i3 = new Intent("com.example.damiancaloriecount.ADDTOPRODUCTDATABASE");
@@ -73,4 +101,17 @@ public class MainScreen extends Activity implements OnClickListener {
 				break;
 		}
 	}
+	
+	  @Override
+	    public void onResume() {
+	        super.onResume();
+	        database.open();
+	        updateTv();
+	    }
+
+	    @Override
+	    public void onPause() {
+	        super.onPause();
+	        database.close();
+	    }
 }
