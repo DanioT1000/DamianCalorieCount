@@ -27,12 +27,12 @@ public class AddToDiaryScreen extends Activity implements OnClickListener{
 	ListView listView;
 	CRUDdb database;
 	ArrayList arrayList;
-	String s_carbsProduct, s_proteinProduct, s_fatProduct, s_kcalProduct;
+	String s_carbsProduct, s_proteinProduct, s_fatProduct, s_kcalProduct, p_name;
 	float f_carbsProduct, f_proteinProduct, f_fatProduct, f_kcalProduct;
+	float carbsToday, proteinToday, fatToday, kcalToday;
 	float carbs,protein,fat,kcal;
-	float carbsLeft, proteinLeft, fatLeft;
+	float carbsLeft, proteinLeft, fatLeft, kcalLeft;
 	int grams = 100;   
-	String p_name;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
@@ -80,15 +80,28 @@ public class AddToDiaryScreen extends Activity implements OnClickListener{
 		s_kcalProduct = arrayList.get(4).toString();
 		f_kcalProduct = Float.valueOf(s_kcalProduct);
 		
+		//variable to update TV and add to database
 		carbs=f_carbsProduct;
 		protein= f_proteinProduct;
 		fat = f_fatProduct;
 		kcal = f_carbsProduct;
 		
+		//calculate reaming kcal, carbs,proteins,fat
+		carbsToday = database.getTodaysCarbs();
+		proteinToday = database.getTodaysProtein();
+		fatToday = database.getTodaysFat();
+		kcalToday = (4*carbsToday) + (4*proteinToday) + (9 *fatToday);
+		
+		carbsLeft = 404 - carbsToday - carbs;
+		proteinLeft = 173 + proteinToday - protein;
+		fatLeft = 80 - fatToday - fat;
+		kcalLeft = (4*carbsLeft + 4*proteinLeft + 9*fatLeft) - kcal;
 		
 		
 		
-		updatTextViews(f_carbsProduct,f_proteinProduct,f_fatProduct,f_kcalProduct,160,170,180,190);
+		
+		
+		updatTextViews(f_carbsProduct,f_proteinProduct,f_fatProduct,f_kcalProduct,carbsLeft,proteinLeft,fatLeft,kcalLeft);
 	
 		//*OnClickListener
 		bAddToDiary.setOnClickListener(this);
@@ -119,14 +132,24 @@ public class AddToDiaryScreen extends Activity implements OnClickListener{
 					carbs = ((float)i_value/100)*f_carbsProduct;
 					protein = ((float)i_value/100)*f_proteinProduct;
 					fat = ((float)i_value/100)*f_fatProduct;
-					kcal = (4*carbs) + (4* protein) + (9* fat);				
+					kcal = (4*carbs) + (4* protein) + (9* fat);		
+					
+					carbsLeft = 404 - carbsToday - carbs;
+					proteinLeft = 173 + proteinToday - protein;
+					fatLeft = 80 - fatToday - fat;
+					kcalLeft = (4*carbsLeft + 4*proteinLeft + 9*fatLeft) - kcal;
 				} else{
 					carbs = 0;
 					protein = 0;
 					fat = 0;
 					kcal = 0;
+					
+					carbsLeft = 404 - carbsToday;
+					proteinLeft = 173 + proteinToday ;
+					fatLeft = 80 - fatToday;
+					kcalLeft = (4*carbsLeft + 4*proteinLeft + 9*fatLeft);
 				}
-				updatTextViews(carbs, protein, fat, kcal, 0,0,0,0);
+				updatTextViews(carbs, protein, fat, kcal, carbsLeft,proteinLeft,fatLeft,kcalLeft);
 				
 			}
 		});
@@ -178,8 +201,14 @@ public class AddToDiaryScreen extends Activity implements OnClickListener{
 				protein = ((float)incValue/100)*f_proteinProduct;
 				fat = ((float)incValue/100)*f_fatProduct;
 				kcal = (4*carbs) + (4* protein) + (9* fat);
+				
+				carbsLeft = 404 - carbsToday - carbs;
+				proteinLeft = 173 + proteinToday - protein;
+				fatLeft = 80 - fatToday - fat;
+				kcalLeft = (4*carbsLeft + 4*proteinLeft + 9*fatLeft) - kcal;
+				
 			}
-			updatTextViews(carbs, protein, fat, kcal, 0,0,0,0);
+			updatTextViews(carbs, protein, fat, kcal, carbsLeft,proteinLeft,fatLeft,kcalLeft);
 			break;
 		case R.id.bMinus:
 			String s_value2 = etGrams.getText().toString(); //check !null
@@ -192,15 +221,24 @@ public class AddToDiaryScreen extends Activity implements OnClickListener{
 					protein = ((float)decValue2/100)*f_proteinProduct;
 					fat = ((float)decValue2/100)*f_fatProduct;
 					kcal = (4*carbs) + (4* protein) + (9* fat);
+					
+					carbsLeft = 404 - carbsToday - carbs;
+					proteinLeft = 173 + proteinToday - protein;
+					fatLeft = 80 - fatToday - fat;
+					kcalLeft = (4*carbsLeft + 4*proteinLeft + 9*fatLeft) - kcal;
 				} else {
 					etGrams.setText("0");
 					carbs = 0;
 					protein = 0;
 					fat = 0;
 					kcal = 0;
+					carbsLeft = 404 - carbsToday;
+					proteinLeft = 173 + proteinToday;
+					fatLeft = 80 - fatToday;
+					kcalLeft = (4*carbsLeft + 4*proteinLeft + 9*fatLeft);
 				}
 			}
-			updatTextViews(carbs, protein, fat, kcal, 0,0,0,0);
+			updatTextViews(carbs, protein, fat, kcal, carbsLeft,proteinLeft,fatLeft,kcalLeft);
 			
 			break;
 		}
