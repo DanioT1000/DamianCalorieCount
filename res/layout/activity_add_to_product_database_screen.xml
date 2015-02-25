@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+     
+            <TextView
+		        android:id="@+id/textView1"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="Name:"
+		        android:textAppearance="?android:attr/textAppearanceMedium" />
+		
+		    <EditText
+		        android:id="@+id/etName"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:ems="10" 
+		        android:inputType="text">
+		
+		        <requestFocus />
+		    </EditText>
+		
+		    <TextView
+		        android:id="@+id/textView2"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="Carbs:"
+		        android:textAppearance="?android:attr/textAppearanceMedium"
+		        android:layout_marginTop="10dp" />
+		
+		    <EditText
+		        android:id="@+id/etCarbs"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:ems="10"
+		        android:numeric="integer|decimal" />
+		
+		    <TextView
+		        android:id="@+id/textView3"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="Protein:"
+		        android:textAppearance="?android:attr/textAppearanceMedium"
+		        android:layout_marginTop="10dp" />
+		
+		    <EditText
+		        android:id="@+id/etProtein"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:ems="10" 
+		        android:numeric="integer|decimal" />
+		
+		    <TextView
+		        android:id="@+id/textView4"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="Fat:"
+		        android:textAppearance="?android:attr/textAppearanceMedium"
+		        android:layout_marginTop="10dp" />
+		
+		    <EditText
+		        android:id="@+id/etFat"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:ems="10"
+		        android:numeric="integer|decimal"  />
+		
+		    <Button
+		        android:id="@+id/bAddToProductDatabase"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="Button"
+		        android:layout_marginTop="15dp" />
+            
+        </LinearLayout>
+    </ScrollView>
+
+    
+
+</LinearLayout>
