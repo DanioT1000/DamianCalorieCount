@@ -3,9 +3,13 @@ package com.example.damiancaloriecount;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -58,12 +62,19 @@ public class ListTodaysProductScreen extends Activity {
 	        tv4.setGravity(Gravity.CENTER);
 	        tbrow0.addView(tv4);
 	        
+	        TextView tv5 = new TextView(this);
+	        tv4.setText("Id");
+	        tv4.setTextColor(Color.WHITE);
+	        tv4.setGravity(Gravity.CENTER);
+	        tbrow0.addView(tv5);
+	        
 	        stk.addView(tbrow0);
         
         
         
         for (Product prod : products) {
             TableRow tbrow = new TableRow(this);
+            tbrow.setClickable(true);
 	            TextView t0v = new TextView(this);
 	            t0v.setText(prod.getName());
 	            t0v.setTextColor(Color.WHITE);
@@ -94,21 +105,67 @@ public class ListTodaysProductScreen extends Activity {
 	            t4v.setGravity(Gravity.CENTER);
 	            tbrow.addView(t4v);
 	            
+	            TextView t5v = new TextView(this);
+	            t4v.setText(String.valueOf(prod.getId()));
+	            t4v.setTextColor(Color.WHITE);
+	            t4v.setGravity(Gravity.CENTER);
+	            tbrow.addView(t5v);
+	            
 	            stk.addView(tbrow);
-		}
-
+	            
+	            tbrow.setOnClickListener(new View.OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						v.setBackgroundColor(getResources().getColor(android.R.color.holo_blue_light));
+						TableRow tr = (TableRow) v;
+						TextView firstTextView = (TextView) tr.getChildAt(4);
+						String firstText = firstTextView.getText().toString();
+						createDialogAndDeleteFromDB(Integer.parseInt(firstText));						
+					}
+				});             
+		}       
 	}
 	
-	  @Override
-	    public void onResume() {
-	        super.onResume();
-	        database.open();
-	    }
+	public void createDialogAndDeleteFromDB(final int id){
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+		alertDialogBuilder
+		.setTitle("Delete form diary?")
+		.setMessage("Are you sure?")
+		.setIcon(android.R.drawable.ic_dialog_alert);
+		alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+				database.deleteProductFromDiary(id);
+				//refresh activity
+				Intent intent = getIntent();
+				finish();
+				startActivity(intent);
+			}
+		});
+		alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+			}
+		});
+		alertDialogBuilder.show();
+	}
+	
+    @Override
+    public void onResume() {
+        super.onResume();
+        database.open();
+    }
 
-	    @Override
-	    public void onPause() {
-	        super.onPause();
-	        database.close();
-	    }
+    @Override
+    public void onPause() {
+        super.onPause();
+        database.close();
+    }
 		    
 }
