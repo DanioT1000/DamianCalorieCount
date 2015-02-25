@@ -23,6 +23,7 @@ public class CRUDdb {
 	public CRUDdb open() {
 		dbHelper = new DBHelper(ourContext);
 		ourDatabase = dbHelper.getWritableDatabase();
+		//dbHelper.onUpgrade(ourDatabase,1, 2);
 		return this;
 	}
 	
@@ -139,8 +140,12 @@ public class CRUDdb {
 	}
 	
 	public ArrayList<Product> getAllProductsToday(){
+		Calendar cal = Calendar.getInstance();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd ");
+		String strDate = sdf.format(cal.getTime());
+		
 		String[] columns = new String[]{DBHelper.COLUMN_DIARY_ID , DBHelper.COLUMN_DIARY_DATE, DBHelper.COLUMN_DIARY_PRODUCT_NAME, DBHelper.COLUMN_DIARY_CARBS, DBHelper.COLUMN_DIARY_PROTEIN, DBHelper.COLUMN_DIARY_FAT, DBHelper.COLUMN_DIARY_KCAL};
-		Cursor c = ourDatabase.query(DBHelper.TABLE_DIARY, columns, null, null, null, null, null);
+		Cursor c = ourDatabase.query(DBHelper.TABLE_DIARY, columns, "date='"+strDate+"'", null, null, null, null);
 		
 		ArrayList<Product> info = new ArrayList<Product>();
 		
@@ -155,8 +160,9 @@ public class CRUDdb {
 		// make this better, loop only one time
 		for(c.moveToFirst(); !c.isAfterLast(); c.moveToNext()){
 			Product product = new Product();
-			product.setName(c.getString(iProduct_Name));
-			product.setCarbs(Float.parseFloat(c.getString(iProduct_Carbs)));
+			product.setId(c.getInt(iProduct_ID));
+			product.setName(c.getString(iProduct_Name));					//change this	
+			product.setCarbs(Float.parseFloat(c.getString(iProduct_Carbs)));  //c.getFloat(column_id);
 			product.setProtein(Float.parseFloat(c.getString(iProduct_Protein)));
 			product.setFat(Float.parseFloat(c.getString(iProduct_Fat)));
 			product.setKcal(Float.parseFloat(c.getString(iProduct_Kcal)));
@@ -165,6 +171,51 @@ public class CRUDdb {
 		}
 		
 		return info;
+	}
+	
+	public float getTodaysCarbs(){     //return todays carbs form diary database
+		Calendar cal = Calendar.getInstance();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd ");
+		String strDate = sdf.format(cal.getTime());
+		
+		Cursor c = ourDatabase.rawQuery("SELECT SUM("+DBHelper.COLUMN_DIARY_CARBS+") FROM "+DBHelper.TABLE_DIARY+" WHERE date = '"+strDate+"' ", null);
+		if(c.moveToFirst()){
+			return c.getFloat(0);
+		} else{
+			return 0;
+		}			
+	}
+	
+	public float getTodaysProtein(){     //return todays protein form diary database
+		Calendar cal = Calendar.getInstance();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd ");
+		String strDate = sdf.format(cal.getTime());
+		
+		Cursor c = ourDatabase.rawQuery("SELECT SUM("+DBHelper.COLUMN_DIARY_PROTEIN+") FROM "+DBHelper.TABLE_DIARY+" WHERE date = '"+strDate+"' ", null);
+		if(c.moveToFirst()){
+			return c.getFloat(0);
+		} else{
+			return 0;
+		}			
+	}
+	
+	public float getTodaysFat(){     //return todays fat form diary database
+		Calendar cal = Calendar.getInstance();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd ");
+		String strDate = sdf.format(cal.getTime());
+		
+		Cursor c = ourDatabase.rawQuery("SELECT SUM("+DBHelper.COLUMN_DIARY_FAT+") FROM "+DBHelper.TABLE_DIARY+" WHERE date = '"+strDate+"' ", null);
+		if(c.moveToFirst()){
+			return c.getFloat(0);
+		} else{
+			return 0;
+		}			
+	}
+	
+	public long deleteProductFromDiary(int id){
+		String selection = DBHelper.COLUMN_DIARY_ID + " LIKE ?";
+		String[] selectionArgs = {String.valueOf(id)};
+		return ourDatabase.delete(DBHelper.TABLE_DIARY, selection, selectionArgs);
 	}
 	
 }
