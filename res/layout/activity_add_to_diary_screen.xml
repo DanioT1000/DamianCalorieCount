@@ -45,7 +45,9 @@
             android:ems="10"
             android:text="100"
             android:inputType="number"
-            android:gravity="center" />
+            android:gravity="center">
+            <requestFocus />
+        </EditText>
 
         <Button
             android:id="@+id/bPlus"
