@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+<LinearLayout 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
@@ -46,7 +50,9 @@
             android:text="100"
             android:inputType="number"
             android:gravity="center">
-            <requestFocus />
+
+            <requestFocus android:layout_width="match_parent" />
+
         </EditText>
 
         <Button
@@ -185,17 +191,25 @@
         android:id="@+id/textView11"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Calories reaming"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:layout_marginTop="30dp" />
+        android:layout_marginTop="30dp"
+        android:text="Calories reaming:"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
-    <TextView
-        android:id="@+id/tvKcalLeft"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="420 kcal"
-        android:textAppearance="?android:attr/textAppearanceSmall" 
-        android:layout_gravity="center"/>
+	    <TextView
+	        android:id="@+id/tvKcalLeft"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="0000"
+	        android:textAppearance="?android:attr/textAppearanceSmall" 
+	        android:layout_gravity="center"/>
+	    <TextView
+	        android:id="@+id/textView15"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text=" kcal left"
+	        android:textAppearance="?android:attr/textAppearanceSmall" 
+       		android:layout_gravity="center"/>
+   
     
     <LinearLayout
            android:layout_width="fill_parent"
@@ -239,33 +253,35 @@
            android:weightSum="90">
            
             <TextView
-	        android:id="@+id/textView13"
-	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content"
-	        android:text="Carbs"
-	        android:textAppearance="?android:attr/textAppearanceSmall"
-	        android:layout_weight="30"
-	        android:gravity="center"/>
+                android:id="@+id/textView13"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="30"
+                android:gravity="center"
+                android:text="Carbs Left"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
             
             <TextView
-	        android:id="@+id/textView14"
-	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content"
-	        android:text="Proteins"
-	        android:textAppearance="?android:attr/textAppearanceSmall"
-	        android:layout_weight="30" 
-	        android:gravity="center"/>
+                android:id="@+id/textView14"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="30"
+                android:gravity="center"
+                android:text="Proteins Left"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
             
             <TextView
-	        android:id="@+id/textView15"
-	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content"
-	        android:text="Fat"
-	        android:textAppearance="?android:attr/textAppearanceSmall"
-	        android:layout_weight="30" 
-	        android:gravity="center"/>          
+                android:id="@+id/textView16"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="30"
+                android:gravity="center"
+                android:text="Fat Left"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+          
        </LinearLayout>
 
        
 	
 </LinearLayout>
+</ScrollView>
