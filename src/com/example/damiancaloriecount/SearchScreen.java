@@ -53,7 +53,7 @@ public class SearchScreen extends Activity implements OnClickListener {
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line,info.getDataArrayList() );
 		
 		
-		autoTextView.setThreshold(2);
+		autoTextView.setThreshold(1);
 		autoTextView.setAdapter(adapter);
 		
 		
@@ -79,7 +79,7 @@ public class SearchScreen extends Activity implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub 
 		switch(v.getId()){
 		case R.id.bSearch:
 			String productName = autoTextView.getText().toString();
