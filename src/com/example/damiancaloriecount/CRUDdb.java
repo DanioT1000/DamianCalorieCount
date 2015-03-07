@@ -218,4 +218,8 @@ public class CRUDdb {
 		return ourDatabase.delete(DBHelper.TABLE_DIARY, selection, selectionArgs);
 	}
 	
+	public void insertData(String str){
+		ourDatabase.execSQL(str);
+	}
+	
 }
