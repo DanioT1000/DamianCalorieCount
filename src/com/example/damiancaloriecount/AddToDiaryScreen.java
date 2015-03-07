@@ -8,7 +8,9 @@ import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -32,6 +34,7 @@ public class AddToDiaryScreen extends Activity implements OnClickListener{
 	float carbsToday, proteinToday, fatToday, kcalToday;
 	float carbs,protein,fat,kcal;
 	float carbsLeft, proteinLeft, fatLeft, kcalLeft;
+	float myCarbs, myProtein, myFat;
 	int grams = 100;   
 	
 	@Override
@@ -84,7 +87,7 @@ public class AddToDiaryScreen extends Activity implements OnClickListener{
 		carbs=f_carbsProduct;
 		protein= f_proteinProduct;
 		fat = f_fatProduct;
-		kcal = f_carbsProduct;
+		kcal = f_kcalProduct;
 		
 		//calculate reaming kcal, carbs,proteins,fat
 		carbsToday = database.getTodaysCarbs();
@@ -92,15 +95,20 @@ public class AddToDiaryScreen extends Activity implements OnClickListener{
 		fatToday = database.getTodaysFat();
 		kcalToday = (4*carbsToday) + (4*proteinToday) + (9 *fatToday);
 		
-		carbsLeft = 404 - carbsToday - carbs;
-		proteinLeft = 173 + proteinToday - protein;
-		fatLeft = 80 - fatToday - fat;
-		kcalLeft = (4*carbsLeft + 4*proteinLeft + 9*fatLeft) - kcal;
+		//read preferences       xml/prefs.xml 
+        SharedPreferences getPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        myCarbs = Float.parseFloat(getPrefs.getString("carbs", "0"));
+        myProtein = Float.parseFloat(getPrefs.getString("protein", "0"));
+        myFat = Float.parseFloat(getPrefs.getString("fat", "0"));
 		
+        
+        //calculate left carbs,protein,fat,kcal
+		carbsLeft =myCarbs - carbsToday - carbs;
+		proteinLeft = myProtein - proteinToday - protein;
+		fatLeft = myFat - fatToday - fat;
+		kcalLeft = (4*carbsLeft) + (4*proteinLeft) + (9*fatLeft);
 		
-		
-		
-		
+		//update
 		updatTextViews(f_carbsProduct,f_proteinProduct,f_fatProduct,f_kcalProduct,carbsLeft,proteinLeft,fatLeft,kcalLeft);
 	
 		//*OnClickListener
@@ -134,20 +142,20 @@ public class AddToDiaryScreen extends Activity implements OnClickListener{
 					fat = ((float)i_value/100)*f_fatProduct;
 					kcal = (4*carbs) + (4* protein) + (9* fat);		
 					
-					carbsLeft = 404 - carbsToday - carbs;
-					proteinLeft = 173 + proteinToday - protein;
-					fatLeft = 80 - fatToday - fat;
-					kcalLeft = (4*carbsLeft + 4*proteinLeft + 9*fatLeft) - kcal;
+					carbsLeft = myCarbs - carbsToday - carbs;
+					proteinLeft = myProtein - proteinToday - protein;
+					fatLeft = myFat - fatToday - fat;
+					kcalLeft = (4*carbsLeft) + (4*proteinLeft) + (9*fatLeft);
 				} else{
 					carbs = 0;
 					protein = 0;
 					fat = 0;
 					kcal = 0;
 					
-					carbsLeft = 404 - carbsToday;
-					proteinLeft = 173 + proteinToday ;
-					fatLeft = 80 - fatToday;
-					kcalLeft = (4*carbsLeft + 4*proteinLeft + 9*fatLeft);
+					carbsLeft = myCarbs - carbsToday;
+					proteinLeft = myProtein - proteinToday ;
+					fatLeft = myFat - fatToday;
+					kcalLeft = (4*carbsLeft) + (4*proteinLeft) + (9*fatLeft);
 				}
 				updatTextViews(carbs, protein, fat, kcal, carbsLeft,proteinLeft,fatLeft,kcalLeft);
 				
@@ -189,7 +197,9 @@ public class AddToDiaryScreen extends Activity implements OnClickListener{
 			database.addToDiary(p_name, carbs, protein, fat, kcal);
 			Toast.makeText(getApplicationContext(), "Added To database", 0).show();
 			Intent i = new Intent(this, MainScreen.class);
+			i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 			startActivity(i);
+			
 			break;
 		case R.id.bPlus:  
 			String s_value = etGrams.getText().toString(); //check !null
@@ -202,10 +212,10 @@ public class AddToDiaryScreen extends Activity implements OnClickListener{
 				fat = ((float)incValue/100)*f_fatProduct;
 				kcal = (4*carbs) + (4* protein) + (9* fat);
 				
-				carbsLeft = 404 - carbsToday - carbs;
-				proteinLeft = 173 + proteinToday - protein;
-				fatLeft = 80 - fatToday - fat;
-				kcalLeft = (4*carbsLeft + 4*proteinLeft + 9*fatLeft) - kcal;
+				carbsLeft = myCarbs - carbsToday - carbs;
+				proteinLeft = myProtein - proteinToday - protein;
+				fatLeft = myFat - fatToday - fat;
+				kcalLeft = (4*carbsLeft) + (4*proteinLeft) + (9*fatLeft);
 				
 			}
 			updatTextViews(carbs, protein, fat, kcal, carbsLeft,proteinLeft,fatLeft,kcalLeft);
@@ -222,20 +232,20 @@ public class AddToDiaryScreen extends Activity implements OnClickListener{
 					fat = ((float)decValue2/100)*f_fatProduct;
 					kcal = (4*carbs) + (4* protein) + (9* fat);
 					
-					carbsLeft = 404 - carbsToday - carbs;
-					proteinLeft = 173 + proteinToday - protein;
-					fatLeft = 80 - fatToday - fat;
-					kcalLeft = (4*carbsLeft + 4*proteinLeft + 9*fatLeft) - kcal;
+					carbsLeft = myCarbs - carbsToday - carbs;
+					proteinLeft = myProtein - proteinToday - protein;
+					fatLeft = myFat - fatToday - fat;
+					kcalLeft = (4*carbsLeft) + (4*proteinLeft) + (9*fatLeft);
 				} else {
 					etGrams.setText("0");
 					carbs = 0;
 					protein = 0;
 					fat = 0;
 					kcal = 0;
-					carbsLeft = 404 - carbsToday;
-					proteinLeft = 173 + proteinToday;
-					fatLeft = 80 - fatToday;
-					kcalLeft = (4*carbsLeft + 4*proteinLeft + 9*fatLeft);
+					carbsLeft = myCarbs - carbsToday;
+					proteinLeft = myProtein - proteinToday;
+					fatLeft = myFat - fatToday;
+					kcalLeft = (4*carbsLeft) + (4*proteinLeft) + (9*fatLeft);
 				}
 			}
 			updatTextViews(carbs, protein, fat, kcal, carbsLeft,proteinLeft,fatLeft,kcalLeft);
