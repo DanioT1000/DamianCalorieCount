@@ -15,6 +15,7 @@ public class Product {
 	}
 	
 	public Product(int id, String name, float carbs, float protein, float fat, float kcal){
+		this.id = id;
 		this.name = name;
 		this.carbs = carbs;
 		this.protein = protein;
