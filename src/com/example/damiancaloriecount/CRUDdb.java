@@ -222,4 +222,36 @@ public class CRUDdb {
 		ourDatabase.execSQL(str);
 	}
 	
+	/*
+	 * Return all product, use for example to export to csv
+	 */
+	public ArrayList<Product> getAllProductFromDb(){
+		String[] columns = new String[]{DBHelper.COLUMN_PRODUCTS_ID, DBHelper.COLUMN_PRODUCTS_PRODUCT_NAME, DBHelper.COLUMN_PRODUCTS_CARBS, DBHelper.COLUMN_PRODUCTS_PROTEIN, DBHelper.COLUMN_PRODUCTS_FAT, DBHelper.COLUMN_PRODUCTS_KCAL};
+		Cursor c = ourDatabase.query(DBHelper.TABLE_PRODUCTS, columns, null, null, null, null, null);
+		
+		int iProduct_ID = c.getColumnIndex(DBHelper.COLUMN_PRODUCTS_ID);
+		int iProduct_Name = c.getColumnIndex(DBHelper.COLUMN_PRODUCTS_PRODUCT_NAME);
+		int iProduct_Carbs = c.getColumnIndex(DBHelper.COLUMN_PRODUCTS_CARBS);
+		int iProduct_Protein = c.getColumnIndex(DBHelper.COLUMN_PRODUCTS_PROTEIN);
+		int iProduct_Fat = c.getColumnIndex(DBHelper.COLUMN_PRODUCTS_FAT);
+		int iProduct_Kcal = c.getColumnIndex(DBHelper.COLUMN_PRODUCTS_KCAL);
+		
+		ArrayList<Product> info = new ArrayList<Product>();
+		
+		// make this better, loop only one time
+		for(c.moveToFirst(); !c.isAfterLast(); c.moveToNext()){
+			Product product = new Product();
+			product.setId(c.getInt(iProduct_ID));
+			product.setName(c.getString(iProduct_Name));					//change this	
+			product.setCarbs(Float.parseFloat(c.getString(iProduct_Carbs)));  //c.getFloat(column_id);
+			product.setProtein(Float.parseFloat(c.getString(iProduct_Protein)));
+			product.setFat(Float.parseFloat(c.getString(iProduct_Fat)));
+			product.setKcal(Float.parseFloat(c.getString(iProduct_Kcal)));
+			
+			info.add(product);
+		}
+		
+		return info; 		
+	}
+	
 }
