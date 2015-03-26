@@ -24,7 +24,7 @@ public class SearchScreen extends Activity {
 	EditText etSearch;
 	ListView listView;
 	CRUDdb info;
-	ArrayAdapter<String> adapter;
+	ArrayAdapter<String> adapter = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -99,16 +99,17 @@ public class SearchScreen extends Activity {
 	    
 	    
 	private class DownloadProductNames extends AsyncTask<Void, Void, Void>{
-
+		
 		@Override
-		protected Void doInBackground(Void... params) {
-			// TODO Auto-generated method stub
-			
+		protected Void doInBackground(Void... params) {			
 			//data form db
-			adapter = new ArrayAdapter<String>(SearchScreen.this, android.R.layout.simple_dropdown_item_1line,info.getDataArrayList() );
-			listView.setAdapter(adapter);
-			
+			adapter = new ArrayAdapter<String>(SearchScreen.this, android.R.layout.simple_dropdown_item_1line,info.getDataArrayList() );			
 			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(Void args) {
+			listView.setAdapter(adapter);
 		}
 		
 	} //end class
