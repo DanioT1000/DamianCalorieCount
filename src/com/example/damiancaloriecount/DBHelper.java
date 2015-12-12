@@ -5,6 +5,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 
+//test
+
 public class DBHelper extends SQLiteOpenHelper {
 	
    private static final String DATABASE_NAME = "calorieCount.db";
